@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import okhttp3.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @ClassName GithubLogin
@@ -17,12 +15,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class GithubLogin {
 
+    // GitHub 配置项目ID秘钥
     private static final String client_id = "81ab7cad90754371b50b";
     private static final String clientSecret = "71329918bbd240785de32ec50f2075675c952cca";
+    // 获取token地址
     private static final String URL = "https://github.com/login/oauth/access_token";
 
-    @GetMapping("/oauth/redirect")
-    public String getOauth(String code) throws Exception {
+    @GetMapping("/github/redirect")
+    public void getOauth(String code) throws Exception {
         OkHttpClient client = new OkHttpClient();
         // 回调获取code
         System.out.println("回调code:" + code);
@@ -50,6 +50,5 @@ public class GithubLogin {
         JSONObject o = JSONObject.parseObject(execute.body().string());
         String name = o.getString("login");
         System.out.println(name);
-        return "home.html?name=" + name;
     }
 }
